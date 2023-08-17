@@ -5,5 +5,6 @@ test('Show Starter Bot Message show Hello', async({ page }) => {
   await page.waitForLoadState('domcontentloaded');
   await page.waitForTimeout(1000);
 
-  await expect(page.getByText('Hello!')).toBeVisible();
+  await expect(page.locator('.bot-bubble p')).toHaveText('Hello!');
+  await expect(page.locator('.user-bubble')).not.toBeVisible();
 });
