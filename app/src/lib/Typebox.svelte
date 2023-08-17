@@ -4,7 +4,6 @@
 
   let messageInput = '';
   let message: IChatLog;
-  let botPrefix = 'bot ';
 
   onMount(() => {
     messageLogs.subscribe((logs) => {
