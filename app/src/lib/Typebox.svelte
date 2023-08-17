@@ -7,7 +7,7 @@
   let messageInput = '';
 
   function sendMessage() {
-    let content = messageInput;
+    let content = messageInput.trim();
     messageInput = '';
 
     let message: IChatLog = {
