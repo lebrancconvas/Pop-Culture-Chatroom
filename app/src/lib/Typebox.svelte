@@ -44,26 +44,26 @@
 </script>
 
 <div id="typebox-container">
-  <input type="text" on:keydown={handleKeydown} bind:value={messageInput}>
+  <textarea on:keydown={handleKeydown} bind:value={messageInput} placeholder="Type a message..." />
 </div>
 
 <style>
   #typebox-container {
+    /* outline: 2px solid black; */
     position: relative;
     margin: 20px auto;
-    border: 2px solid black;
-    padding: 5px;
-    width: 80%;
-    height: 4.3vh;
-    border-radius: 5px;
+    width: 90%;
   }
 
-  input {
+  textarea {
     position: absolute;
-    outline: 0;
-    border: 0;
-    width: 80%;
-    height: 60%;
+    border: 2px solid black;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px;
+    width: 100%;
+    height: 5vh;
     font-size: 21px;
+    border-radius: 5px;
   }
 </style>
