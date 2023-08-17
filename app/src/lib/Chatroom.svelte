@@ -47,7 +47,14 @@
           reply('read <Manga Name>');
           break;
         case('readlist'):
-          reply(`Manga List: https://raw.githubusercontent.com/lebrancconvas/Pop-Culture-Chatroom/main/app/src/data/manga-data.json`);
+          reply(`Manga List`, () => {
+            messageLogs.update((logs) => [...logs, {
+              senderRole: SenderRole.BOT,
+              type: ChatType.LINK,
+              content: `https://raw.githubusercontent.com/lebrancconvas/Pop-Culture-Chatroom/main/app/src/data/manga-data.json`,
+              createdAt: new Date()
+            }])
+          });
           break;
         case('clear'):
           messageLogs.set([]);
@@ -69,8 +76,8 @@
             reply(`Found ${manga?.title} !`, () => {
               messageLogs.update((logs) => [...logs, {
                 senderRole: SenderRole.BOT,
-                type: ChatType.TEXT,
-                content: `Link: ${manga?.url}`,
+                type: ChatType.LINK,
+                content: `${manga?.url}`,
                 createdAt: new Date()
               }]);
             });
@@ -86,11 +93,19 @@
   {#each logs as log}
     {#if log.senderRole === SenderRole.USER}
       <div transition:fade class="bubble user-bubble">
-        <p>{log.content}</p>
+        {#if log.type === ChatType.TEXT}
+          <p>{log.content}</p>
+        {:else if log.type === ChatType.LINK}
+          <a href={log.content} target="_blank"><p>{log.content}</p></a>
+        {/if}
       </div>
     {:else if log.senderRole === SenderRole.BOT}
       <div transition:fade class="bubble bot-bubble">
-        <p>{log.content}</p>
+        {#if log.type === ChatType.TEXT}
+          <p>{log.content}</p>
+        {:else if log.type === ChatType.LINK}
+          <a href={log.content} target="_blank"><p>{log.content}</p></a>
+        {/if}
       </div>
     {/if}
   {/each}

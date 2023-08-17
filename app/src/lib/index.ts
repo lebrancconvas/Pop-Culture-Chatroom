@@ -7,7 +7,8 @@ export enum SenderRole {
 }
 
 export enum ChatType {
-  TEXT = 'text'
+  TEXT = 'text',
+  LINK = 'link'
 }
 
 export interface IChatLog {
