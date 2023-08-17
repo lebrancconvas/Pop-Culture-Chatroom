@@ -40,7 +40,7 @@
     text-align: center;
     width: 14%;
     padding: 3px;
-    border-radius: 100px;
+    border-radius: 10px;
   }
 
   .user-bubble {
