@@ -25,6 +25,10 @@ export default class TalkabotChat {
     return await this.page.locator('.user-bubble p').allInnerTexts();
   }
 
+  async expectGreeting() {
+    await this.expectLastMessage(/Hello/i, true);
+  }
+
   async expectLastMessage(message: string | RegExp, isBot: boolean) {
     const logs = isBot ? await this.getBotLastMessage() : await this.getUserLastMessage();
     if(typeof message === 'string') {

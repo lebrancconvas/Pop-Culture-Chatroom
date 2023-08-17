@@ -5,7 +5,7 @@ test('Show Starter Bot Message show Hello', async ({ page }) => {
   const chat = new TalkabotChat(page);
   await chat.open();
 
-  await chat.expectLastMessage('Hello!', true);
+  await chat.expectGreeting();
   await expect(page.locator('.user-bubble')).not.toBeVisible();
   await chat.close();
 });
