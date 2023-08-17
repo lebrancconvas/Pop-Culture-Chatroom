@@ -2,12 +2,12 @@
 	import { fade } from 'svelte/transition';
   import { messageLogs } from './index';
   import { type IChatLog, SenderRole, ChatType } from './index';
-  import mangaList from '../data/manga-data.json';
+  import mangaList from '../data/manga.json';
 
   let logs: IChatLog[] = [];
   messageLogs.subscribe((values) => logs = values);
 
-  function reply(replyContent: string) {
+  function reply(replyContent: string, callback?: () => void) {
     if(logs.length === 0) return;
 
     if(logs[logs.length - 1].senderRole === SenderRole.USER) {
@@ -20,6 +20,12 @@
       setTimeout(() => {
         messageLogs.update((logs) => [...logs, reply]);
       }, 100);
+    }
+
+    if(callback) {
+      setTimeout(() => {
+        callback();
+      }, 200);
     }
   }
 
@@ -41,8 +47,7 @@
           reply('read <Manga Name>');
           break;
         case('readlist'):
-          let mangaTitles = mangaList.filter((manga) => manga.title);
-          reply(`Manga List: ${mangaTitles.map((manga) => manga.title).join(', ')}`);
+          reply(`Manga List: https://raw.githubusercontent.com/lebrancconvas/Pop-Culture-Chatroom/main/app/src/data/manga-data.json`);
           break;
         case('clear'):
           messageLogs.set([]);
@@ -60,9 +65,19 @@
       if(latestMessage.content.toLowerCase().startsWith('read ')) {
         let mangaName = latestMessage.content.split(' ').slice(1).join(' ');
         let manga = mangaList.find((manga) => manga.title.toLowerCase() === mangaName.toLowerCase());
-        reply(`Link: ${manga?.url}`);
+        if(manga) {
+            reply(`Found ${manga?.title} !`, () => {
+              messageLogs.update((logs) => [...logs, {
+                senderRole: SenderRole.BOT,
+                type: ChatType.TEXT,
+                content: `Link: ${manga?.url}`,
+                createdAt: new Date()
+              }]);
+            });
+        } else {
+          reply('Not Found your manga, I\'m sorry');
+        }
       }
-
     }
   }
 </script>
