@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fade } from 'svelte/transition';
   import { messageLogs } from './index';
   import { type IChatLog, SenderRole } from './index';
 
@@ -11,11 +12,11 @@
 <div id="chatroom-container">
   {#each logs as log}
     {#if log.senderRole === SenderRole.USER}
-      <div id="user-zone">
+      <div transition:fade class="bubble user-bubble">
         <p>{log.content}</p>
       </div>
     {:else if log.senderRole === SenderRole.BOT}
-      <div id="bot-zone">
+      <div transition:fade class="bubble bot-bubble">
         <p>{log.content}</p>
       </div>
     {/if}
@@ -35,15 +36,17 @@
     overflow-x: hidden;
   }
 
-  #user-zone {
-    /* position: absolute; */
-    margin: 0 82%;
+  .bubble {
     text-align: center;
     width: 14%;
     padding: 3px;
     border-radius: 100px;
+  }
+
+  .user-bubble {
+    /* position: absolute; */
+    margin: 5px 82%;
     background-color: rgb(29, 139, 241);
-    margin-bottom: 5px;
   }
 
   p {
@@ -52,14 +55,9 @@
     word-wrap: break-word;
   }
 
-  #bot-zone {
+  .bot-bubble {
     /* position: absolute; */
-    text-align: center;
-    margin: 0 4%;
-    width: 14%;
-    padding: 3px;
-    border-radius: 100px;
+    margin: 5px 4%;
     background-color: rgb(0, 136, 0);
-    margin-bottom: 5px;
   }
 </style>
