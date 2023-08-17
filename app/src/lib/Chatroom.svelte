@@ -2,7 +2,7 @@
 	import { fade } from 'svelte/transition';
   import { messageLogs } from './index';
   import { type IChatLog, SenderRole, ChatType } from './index';
-  import mangaList from '../data/manga.json';
+  import mangaList from '../data/manga-data.json';
 
   let logs: IChatLog[] = [];
   messageLogs.subscribe((values) => logs = values);
@@ -41,8 +41,8 @@
           reply('read <Manga Name>');
           break;
         case('readlist'):
-          let mangaTitles = mangaList.filter((manga) => manga.name);
-          reply(`Manga List: ${mangaTitles.map((manga) => manga.name).join(', ')}`);
+          let mangaTitles = mangaList.filter((manga) => manga.title);
+          reply(`Manga List: ${mangaTitles.map((manga) => manga.title).join(', ')}`);
           break;
         case('clear'):
           messageLogs.set([]);
@@ -59,8 +59,8 @@
 
       if(latestMessage.content.toLowerCase().startsWith('read ')) {
         let mangaName = latestMessage.content.split(' ').slice(1).join(' ');
-        let manga = mangaList.find((manga) => manga.name.toLowerCase() === mangaName.toLowerCase());
-        reply(`Link: https://chapmanganato.com/manga-${manga?.mangaID}`);
+        let manga = mangaList.find((manga) => manga.title.toLowerCase() === mangaName.toLowerCase());
+        reply(`Link: ${manga?.url}`);
       }
 
     }
