@@ -7,6 +7,8 @@
   let messageInput = '';
 
   function sendMessage() {
+    if(!messageInput.trim().length) return;
+
     let content = messageInput.trim();
     messageInput = '';
 
