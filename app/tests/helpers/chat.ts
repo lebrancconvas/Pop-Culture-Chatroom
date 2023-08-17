@@ -13,8 +13,12 @@ export default class TalkabotChat {
   }
 
   async send(text: string) {
-    await this.page.locator('input').fill(text);
+    await this.page.locator('textarea').fill(text);
     await this.page.keyboard.press('Enter');
+  }
+
+  async waitForResponse() {
+    await this.page.waitForTimeout(1000);
   }
 
   async getBotLastMessage() {
