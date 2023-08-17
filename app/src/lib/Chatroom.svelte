@@ -1,12 +1,28 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
   import { messageLogs } from './index';
-  import { type IChatLog, SenderRole } from './index';
+  import { type IChatLog, SenderRole, ChatType } from './index';
 
   let logs: IChatLog[] = [];
   messageLogs.subscribe((values) => logs = values);
 
-  $: console.log(logs);
+  function reply(replyContent: IChatLog) {
+    if(logs.length === 0) return;
+
+    if(logs[logs.length - 1].senderRole === SenderRole.USER) {
+      setTimeout(() => {
+        messageLogs.update((logs) => [...logs, replyContent]);
+      }, 100);
+    }
+  }
+
+  $: latestMessage = logs[logs.length - 1];
+  $: reply({
+    senderRole: SenderRole.BOT,
+    type: ChatType.TEXT,
+    content: latestMessage ? 'I don\'t know, What are you talking about? because I\'m still in development.' : 'Hello!',
+    createdAt: new Date()
+  });
 </script>
 
 <div id="chatroom-container">
@@ -38,14 +54,14 @@
 
   .bubble {
     text-align: center;
-    width: 14%;
+    width: 30%;
     padding: 3px;
     border-radius: 10px;
   }
 
   .user-bubble {
     /* position: absolute; */
-    margin: 5px 82%;
+    margin: 5px 66%;
     background-color: rgb(29, 139, 241);
   }
 
