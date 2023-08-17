@@ -1,5 +1,47 @@
+<script lang="ts">
+  enum SenderRole {
+    USER = 'user',
+    BOT = 'bot'
+  }
+
+  enum ChatType {
+    TEXT = 'text'
+  }
+
+  interface IChatLog {
+    senderRole: SenderRole;
+    type: ChatType;
+    content: string;
+  }
+
+  let messageLogs: IChatLog[] = [];
+
+  let messageInput = '';
+
+  function sendMessage() {
+    let content = messageInput;
+    messageInput = '';
+
+    let message: IChatLog = {
+      senderRole: SenderRole.USER,
+      type: ChatType.TEXT,
+      content: content
+    };
+
+    messageLogs = [...messageLogs, message];
+    console.log(messageLogs);
+  }
+
+  function handleKeydown(e: KeyboardEvent) {
+    if(e.key === 'Enter') {
+      e.preventDefault();
+      sendMessage();
+    }
+  }
+</script>
+
 <div id="typebox-container">
-  <input type="text">
+  <input type="text" on:keydown={handleKeydown} bind:value={messageInput}>
 </div>
 
 <style>
