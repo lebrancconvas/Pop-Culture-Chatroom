@@ -3,7 +3,7 @@
   import { type IChatLog, SenderRole } from './index';
 
   let logs: IChatLog[] = [];
-  messageLogs.subscribe((messageLogs) => logs = messageLogs);
+  messageLogs.subscribe((values) => logs = values);
 
   $: console.log(logs);
 </script>
@@ -31,10 +31,12 @@
     width: 80%;
     height: 65vh;
     border-radius: 5px;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   #user-zone {
-    position: absolute;
+    /* position: absolute; */
     margin: 0 82%;
     text-align: center;
     width: 14%;
@@ -47,6 +49,7 @@
   #user-zone > p {
     color: white;
     font-size: 18px;
+    word-wrap: break-word;
   }
 
   #bot-zone {
