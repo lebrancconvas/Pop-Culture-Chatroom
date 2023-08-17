@@ -30,7 +30,7 @@
     border: 2px solid black;
     padding: 5px;
     width: 80%;
-    height: 65vh;
+    height: 70vh;
     border-radius: 5px;
     overflow-y: auto;
     overflow-x: hidden;
