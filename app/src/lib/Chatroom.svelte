@@ -2,27 +2,69 @@
 	import { fade } from 'svelte/transition';
   import { messageLogs } from './index';
   import { type IChatLog, SenderRole, ChatType } from './index';
+  import mangaList from '../data/manga.json';
 
   let logs: IChatLog[] = [];
   messageLogs.subscribe((values) => logs = values);
 
-  function reply(replyContent: IChatLog) {
+  function reply(replyContent: string) {
     if(logs.length === 0) return;
 
     if(logs[logs.length - 1].senderRole === SenderRole.USER) {
+      let reply: IChatLog = {
+        senderRole: SenderRole.BOT,
+        type: ChatType.TEXT,
+        content: replyContent,
+        createdAt: new Date()
+      };
       setTimeout(() => {
-        messageLogs.update((logs) => [...logs, replyContent]);
+        messageLogs.update((logs) => [...logs, reply]);
       }, 100);
     }
   }
 
-  $: latestMessage = logs[logs.length - 1];
-  $: reply({
-    senderRole: SenderRole.BOT,
-    type: ChatType.TEXT,
-    content: latestMessage ? 'I don\'t know, What are you talking about? because I\'m still in development.' : 'Hello!',
-    createdAt: new Date()
-  });
+  $: {
+    let latestMessage = logs[logs.length - 1];
+
+    if(latestMessage && latestMessage.senderRole === SenderRole.USER) {
+      switch(latestMessage.content.toLowerCase()) {
+        case('test'):
+          reply('Test Reply');
+          break;
+        case('hello'):
+          reply('Hello!');
+          break;
+        case('commands'):
+          reply('Commands: read <Manga Name>');
+          break;
+        case('read'):
+          reply('read <Manga Name>');
+          break;
+        case('readlist'):
+          let mangaTitles = mangaList.filter((manga) => manga.name);
+          reply(`Manga List: ${mangaTitles.map((manga) => manga.name).join(', ')}`);
+          break;
+        case('clear'):
+          messageLogs.set([]);
+          messageLogs.update((logs) => [...logs, {
+            senderRole: SenderRole.BOT,
+            type: ChatType.TEXT,
+            content: 'Message Cleared!',
+            createdAt: new Date()
+          }]);
+          break;
+        default:
+          break;
+      }
+
+      if(latestMessage.content.toLowerCase().startsWith('read ')) {
+        let mangaName = latestMessage.content.split(' ').slice(1).join(' ');
+        let manga = mangaList.find((manga) => manga.name.toLowerCase() === mangaName.toLowerCase());
+        reply(`Link: https://chapmanganato.com/manga-${manga?.mangaID}`);
+      }
+
+    }
+  }
 </script>
 
 <div id="chatroom-container">
