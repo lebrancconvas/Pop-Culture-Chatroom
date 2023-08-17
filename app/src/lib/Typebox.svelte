@@ -1,20 +1,8 @@
 <script lang="ts">
-  enum SenderRole {
-    USER = 'user',
-    BOT = 'bot'
-  }
-
-  enum ChatType {
-    TEXT = 'text'
-  }
-
-  interface IChatLog {
-    senderRole: SenderRole;
-    type: ChatType;
-    content: string;
-  }
-
-  let messageLogs: IChatLog[] = [];
+	import { ChatType } from './index';
+	import { SenderRole } from './index';
+  import { messageLogs } from './index';
+  import type { IChatLog } from './index';
 
   let messageInput = '';
 
@@ -28,8 +16,7 @@
       content: content
     };
 
-    messageLogs = [...messageLogs, message];
-    console.log(messageLogs);
+    messageLogs.update((logs) => [...logs, message]);
   }
 
   function handleKeydown(e: KeyboardEvent) {
