@@ -1,10 +1,24 @@
 <script lang="ts">
-	import { ChatType } from './index';
-	import { SenderRole } from './index';
-  import { messageLogs } from './index';
-  import type { IChatLog } from './index';
+  import { onMount } from 'svelte';
+  import { type IChatLog, SenderRole, ChatType, messageLogs } from './index';
 
   let messageInput = '';
+  let message: IChatLog;
+  let botPrefix = 'bot ';
+
+  onMount(() => {
+    messageLogs.subscribe((logs) => {
+      if(logs.length !== 0) return;
+    })
+
+    message = {
+      senderRole: SenderRole.BOT,
+      type: ChatType.TEXT,
+      content: 'Hello!',
+      createdAt: new Date()
+    }
+    messageLogs.update((logs) => [...logs, message])
+  })
 
   function sendMessage() {
     if(!messageInput.trim().length) return;
@@ -12,10 +26,11 @@
     let content = messageInput.trim();
     messageInput = '';
 
-    let message: IChatLog = {
+    message = {
       senderRole: SenderRole.USER,
       type: ChatType.TEXT,
-      content: content
+      content: content,
+      createdAt: new Date()
     };
 
     messageLogs.update((logs) => [...logs, message]);

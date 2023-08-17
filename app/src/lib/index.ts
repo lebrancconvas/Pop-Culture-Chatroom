@@ -14,6 +14,7 @@ export interface IChatLog {
   senderRole: SenderRole;
   type: ChatType;
   content: string;
+  createdAt: Date;
 }
 
 export let messageLogs = writable<IChatLog[]>([]);

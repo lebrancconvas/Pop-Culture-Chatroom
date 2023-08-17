@@ -46,19 +46,20 @@
     margin-bottom: 5px;
   }
 
-  #user-zone > p {
+  p {
     color: white;
     font-size: 18px;
     word-wrap: break-word;
   }
 
   #bot-zone {
-    position: absolute;
+    /* position: absolute; */
     text-align: center;
+    margin: 0 4%;
     width: 14%;
     padding: 3px;
     border-radius: 100px;
-    background-color: rgb(36, 196, 42);
+    background-color: rgb(0, 136, 0);
     margin-bottom: 5px;
   }
 </style>
