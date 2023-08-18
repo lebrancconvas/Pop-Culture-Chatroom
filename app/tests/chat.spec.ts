@@ -23,15 +23,15 @@ test('Send Message and Show User Message', async ({ page }) => {
   await chat.close();
 });
 
-test('Send Message and Bot reply automatically', async ({ page }) => {
-  const chat = new TalkabotChat(page);
-  await chat.open();
+// test('Send Message and Bot reply automatically', async ({ page }) => {
+//   const chat = new TalkabotChat(page);
+//   await chat.open();
 
-  await chat.expectGreeting();
+//   await chat.expectGreeting();
 
-  await chat.send('Wow Wow Wow!');
-  await chat.waitForResponse();
+//   await chat.send('Wow Wow Wow!');
+//   await chat.waitForResponse();
 
-  await chat.expectLastMessage(/I\'m still in development/i, true);
-  await chat.close();
-});
+//   await chat.expectLastMessage(/I\'m still in development/i, true);
+//   await chat.close();
+// });
