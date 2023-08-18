@@ -44,7 +44,7 @@
           reply('Commands: read <Manga Name>');
           break;
         case('read'):
-          reply('read <Manga Name>');
+          reply('Do you mean command: "read <Manga Name>" ?');
           break;
         case('readlist'):
           reply(`Manga List`, () => {
@@ -69,6 +69,9 @@
               createdAt: new Date()
             }]);
           });
+          break;
+        case('search'):
+          reply('Do you mean command: "search <Manga Name>" ?');
           break;
         case('clear'):
           messageLogs.set([]);
@@ -97,6 +100,26 @@
             });
         } else {
           reply('Not Found your manga, I\'m sorry');
+        }
+      } else if(latestMessage.content.toLowerCase().startsWith('search ')) {
+        let searchKeyword = latestMessage.content.split(' ').slice(1).join(' ');
+        let searchResult = mangaList.filter((manga) => manga.title.toLowerCase().includes(searchKeyword.toLowerCase()));
+        searchResult = searchResult.slice(0, 20);
+        if(searchResult.length <= 0) {
+          reply('Not Found your manga, I\'m sorry');
+        } else {
+          reply(`Found ${searchResult.length} result(s)! (Max results shown 20 results.)`, () => {
+            searchResult.forEach((manga) => {
+              setTimeout(() => {
+                messageLogs.update((logs) => [...logs, {
+                  senderRole: SenderRole.BOT,
+                  type: ChatType.TEXT,
+                  content: `${manga.title}`,
+                  createdAt: new Date()
+                }]);
+              }, 100);
+            });
+          });
         }
       }
     }
