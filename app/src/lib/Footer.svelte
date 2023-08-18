@@ -1,5 +1,5 @@
 <footer>
-  <p>Copyright {new Date().getFullYear()}, Made by <a href="https://github.com/lebrancconvas">Poom Yimyuean (@lebrancconvas)</a></p>
+  <p>Copyright {new Date().getFullYear()}, Made by <a href="https://github.com/lebrancconvas" target="_blank">Poom Yimyuean (@lebrancconvas)</a> | <a href="https://github.com/lebrancconvas/Pop-Culture-Chatroom" target="_blank">View Github</a></p>
 </footer>
 
 <style>
