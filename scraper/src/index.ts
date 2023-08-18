@@ -10,14 +10,25 @@ interface IManga {
 let mangas: IManga[] = [];
 
 const index = async() => {
-
   const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext({
     locale: 'en-US'
   });
   const page = await context.newPage();
 
-  for(let i = 1; i <= 1581; i++) {
+  await page.goto('https://manganato.com/genre-all');
+  await page.waitForSelector('.page-last');
+
+  let maxPage = 100;
+  const maxPageExtract = await page.locator('.page-last').textContent();
+
+  if(typeof maxPageExtract === 'string') {
+    let maxPageMatch = maxPageExtract.match(/\d+/);
+    maxPageMatch = maxPageMatch ? maxPageMatch : ['100'];
+    maxPage = parseInt(maxPageMatch[0]);
+  }
+
+  for(let i = 1; i <= maxPage; i++) {
     const url = `https://mangakakalot.com/manga_list?type=latest&category=all&state=all&page=${i}`;
     await page.goto(url);
     await page.waitForSelector('.list-truyen-item-wrap > h3');
@@ -35,9 +46,8 @@ const index = async() => {
       }
 
       mangas.push(mangaData);
-      // console.log('Save Log!');
     }
-    console.log(`Page ${i} / 1581 success!`);
+    console.log(`Page ${i} / ${maxPage} success!`);
   }
 
   await writeFile(path.join(__dirname, '..', '..', 'app', 'src', 'data', 'manga-data.json'), JSON.stringify(mangas, null, 2), 'utf-8');
