@@ -20,7 +20,8 @@ const index = async() => {
   for(let i = 1; i < 1581; i++) {
     const url = `https://mangakakalot.com/manga_list?type=latest&category=all&state=all&page=${i}`;
     await page.goto(url);
-    await page.waitForSelector('.list-truyen-item-wrap > h3', { timeout: 100 });
+    await page.waitForSelector('.list-truyen-item-wrap > h3');
+    await page.waitForTimeout(1000);
 
     const mangaList = await page.locator('.list-truyen-item-wrap > h3').all();
 
@@ -34,12 +35,12 @@ const index = async() => {
       }
 
       mangas.push(mangaData);
-      console.log('Save Log!');
+      // console.log('Save Log!');
     }
-    await writeFile(path.join(__dirname, '..', '..', 'app', 'src', 'data', 'manga-data.json'), JSON.stringify(mangas, null, 2), 'utf-8');
-    console.log(`Page ${i} success!`);
+    console.log(`Page ${i} / 1581 success!`);
   }
 
+  await writeFile(path.join(__dirname, '..', '..', 'app', 'src', 'data', 'manga-data.json'), JSON.stringify(mangas, null, 2), 'utf-8');
   await page.close();
   await browser.close();
 };
