@@ -40,8 +40,11 @@
         case('hello'):
           reply('Hello!');
           break;
+        case('command'):
+          reply('Commands: test, hello, read <Manga Name>, readlist, random manga, search <Manga Name>, clear');
+          break;
         case('commands'):
-          reply('Commands: read <Manga Name>');
+          reply('Commands: test, hello, read <Manga Name>, readlist, random manga, search <Manga Name>, clear');
           break;
         case('read'):
           reply('Do you mean command: "read <Manga Name>" ?');
