@@ -17,7 +17,7 @@ const index = async() => {
   });
   const page = await context.newPage();
 
-  for(let i = 1; i < 1581; i++) {
+  for(let i = 1; i <= 1581; i++) {
     const url = `https://mangakakalot.com/manga_list?type=latest&category=all&state=all&page=${i}`;
     await page.goto(url);
     await page.waitForSelector('.list-truyen-item-wrap > h3');
