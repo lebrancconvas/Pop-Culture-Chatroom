@@ -56,6 +56,20 @@
             }])
           });
           break;
+        case('random'):
+          reply('Do you mean command: "random manga" ?');
+          break;
+        case('random manga'):
+          let randomManga = mangaList[Math.floor(Math.random() * mangaList.length)];
+          reply(`Random ${randomManga.title} !`, () => {
+            messageLogs.update((logs) => [...logs, {
+              senderRole: SenderRole.BOT,
+              type: ChatType.LINK,
+              content: `${randomManga.url}`,
+              createdAt: new Date()
+            }]);
+          });
+          break;
         case('clear'):
           messageLogs.set([]);
           messageLogs.update((logs) => [...logs, {
